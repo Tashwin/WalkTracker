@@ -56,8 +56,9 @@ function success(position) {
   var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   var latlon = position.coords.latitude+","+position.coords.longitude;
   x.innerHTML = "Current position: " + latlon;
-  		x.innerHTML =position.timeStamp + "\t" + position.coords.latitude+"\t"+position.coords.longitude;
-
+  		x.innerHTML ="TimeStamp: " + position.timestamp + "\t\t\tLatitude: " + position.coords.latitude+"\t\t\tLongitude: "+position.coords.longitude + "\t\t\tAltitude: " +
+					position.coords.altitude + "\t\t\tAccuracy: " + position.coords.accuracy + "\t\t\tAltitude Accuracy: " + position.coords.altitudeAccuracy +
+				   "\t\t\tHeading: " + position.coords.heading + "\t\t\tSpeed: " + position.coords.speed ;
   var options = {
     zoom: 15,
     center: coords,
@@ -74,7 +75,6 @@ function success(position) {
       map: map,
       title:"You are here!"
   });
-  onDeviceReady();
 }
     // Wait for Cordova to load
     //
@@ -88,7 +88,7 @@ function success(position) {
     }
 
     function gotFS(fileSystem) {
-	    x.innerHTML = "Hey got ready!"
+	    
         fileSystem.root.getFile("data.txt", {create: true, exclusive: false}, gotFileEntry, fail);
     }
 
@@ -100,8 +100,12 @@ function success(position) {
         writer.onwriteend = function(evt) {
             console.log(position.timeStamp + "\t" + position.coords.latitude+"\t"+position.coords.longitude);
         };
-		x.innerHTML =position.timeStamp + "\t" + position.coords.latitude+"\t"+position.coords.longitude;
-        writer.write(position.timeStamp + "\t" + position.coords.latitude+"\t"+position.coords.longitude);
+		x.innerHTML ="TimeStamp: " + position.timestamp + "\t\t\tLatitude: " + position.coords.latitude+"\t\t\tLongitude: "+position.coords.longitude + "\t\t\tAltitude: " +
+					position.coords.altitude + "\t\t\tAccuracy: " + position.coords.accuracy + "\t\t\tAltitude Accuracy: " + position.coords.altitudeAccuracy +
+				   "\t\t\tHeading: " + position.coords.heading + "\t\t\tSpeed: " + position.coords.speed 
+        writer.write(position.timestamp + "\t" + position.coords.latitude+"\t"+position.coords.longitude + "\t" +
+					position.coords.altitude + "\t" + position.coords.accuracy + "\t" + position.coords.altitudeAccuracy +
+				   "\t" + position.coords.heading + "\t" + position.coords.speed );
     }
 
     function fail(error) {
