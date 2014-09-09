@@ -17,18 +17,23 @@
 
     </article>
 <script>
+<!--timer can be used to set interval after which to call the function to get location update-->
 var myVar = setInterval(function () {getLocation()}, 1000);
 
+<!--Sorta pointer to the Document-->
 var x = document.getElementById("demo");
 
+<!--gets the latitude and longitudnal position-->
 function getLocation() {
+    <!--navigator is the inherent object for the geolocation api-->
     if (navigator.geolocation) {
+	<!--get the current position and call function success if you are successful in getting the values else call the showError function-->
         navigator.geolocation.getCurrentPosition(success,showError);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
-
+<!--Displays messages based on type of errors-->
 function showError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
@@ -45,6 +50,9 @@ function showError(error) {
             break;
     }
 }
+
+<!-- Called if position is successfully tracked-->
+<!--gets the Google map from the api and puts a marker for where you are at-->
 function success(position) {
   var mapcanvas = document.createElement('div');
   mapcanvas.id = 'mapcontainer';
@@ -59,6 +67,8 @@ function success(position) {
   		x.innerHTML ="TimeStamp: " + position.timestamp + "\t\t\tLatitude: " + position.coords.latitude+"\t\t\tLongitude: "+position.coords.longitude + "\t\t\tAltitude: " +
 					position.coords.altitude + "\t\t\tAccuracy: " + position.coords.accuracy + "\t\t\tAltitude Accuracy: " + position.coords.altitudeAccuracy +
 				   "\t\t\tHeading: " + position.coords.heading + "\t\t\tSpeed: " + position.coords.speed ;
+
+<!--Setting up the map vars-->
   var options = {
     zoom: 15,
     center: coords,
@@ -69,11 +79,11 @@ function success(position) {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var map = new google.maps.Map(document.getElementById("mapcontainer"), options);
-
+  <!--setup the marker-->
   var marker = new google.maps.Marker({
       position: coords,
       map: map,
-      title:"You are here!"
+      title:latlon
   });
 }
     // Wait for Cordova to load
